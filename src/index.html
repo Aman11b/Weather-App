@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Weather App</title>
+    <title>Weather Forecast App</title>
+    <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
     <div class="container">
@@ -10,6 +11,7 @@
             <h1>Weather Forecast</h1>
             <p>Get instant weather information for any location</p>
         </header>
+        
         <form id="location-form" class="weather-form">
             <div class="form-group">
                 <input 
@@ -24,9 +26,14 @@
                 </button>
             </div>
         </form>
+
+        <div class="temperature-toggle">
+            <button id="celsius-toggle" class="temp-toggle active">°C</button>
+            <button id="fahrenheit-toggle" class="temp-toggle">°F</button>
+        </div>
+
         <div id="weather-results" class="weather-results">
             <!-- Weather data will be dynamically inserted here -->
-
         </div>
     </div>
 </body>

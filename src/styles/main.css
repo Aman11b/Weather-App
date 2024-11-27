@@ -2,6 +2,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Poppins:wght@300;400;600&display=swap');
 
 :root{
+    /* More Vibrant and Contrasting Gradients */
+    --gradient-clear: linear-gradient(135deg, #FF6B6B, #4ECDC4);
+    --gradient-cloudy: linear-gradient(135deg, #5D6D7E, #34495E);
+    --gradient-rainy: linear-gradient(135deg, #2980B9, #6DD5FA);
+    --gradient-stormy: linear-gradient(135deg, #141E30, #243B55);
+    --gradient-sunny: linear-gradient(135deg, #FFC300, #FF5733);
+    --gradient-snow: linear-gradient(135deg, #83A4D4, #B0CBE3);
         /* Expanded Color Palette with Gradients */
     --gradient-clear: linear-gradient(135deg, #87CEEB, #4682B4);
     --gradient-cloudy: linear-gradient(135deg, #B0C4DE, #778899);
@@ -189,4 +196,77 @@ body{
     color: rgba(255, 255, 255, 0.8);
     text-transform: capitalize;
     font-weight: 600;
+}
+/* Temperature Toggle Styles */
+.temperature-toggle {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.temp-toggle {
+    background-color: transparent;
+    border: 2px solid var(--accent-color);
+    color: var(--accent-color);
+    padding: 0.5rem 1rem;
+    margin: 0 0.5rem;
+    cursor: pointer;
+    transition: var(--transition);
+    border-radius: 4px;
+}
+
+.temp-toggle.active {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+.temp-toggle:hover {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+/* Gradient Animation */
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+/* Add these styles to enhance text visibility */
+.weather-card {
+    position: relative;
+    overflow: hidden;
+    color: #FFFFFF; /* Default light text */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3); /* Subtle text shadow for better readability */
+}
+
+.weather-card .location-name {
+    font-weight: 700;
+}
+
+.weather-card .main-temperature {
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.weather-card .detail-value {
+    font-weight: 600;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
+
+.weather-card .detail-label {
+    opacity: 0.8;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
+
+.weather-type {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
 }

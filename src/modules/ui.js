@@ -2,58 +2,104 @@ export const createWeatherUI = () => {
     const locationForm = document.getElementById('location-form');
     const locationInput = document.getElementById('location-input');
     const weatherResultsContainer = document.getElementById('weather-results');
-    const body = document.body;
+    const celsiusToggle = document.getElementById('celsius-toggle');
+    const fahrenheitToggle = document.getElementById('fahrenheit-toggle');
 
-    // Weather Type to Gradient Mapping
+    let currentTemperatureUnit = 'C';
+    let currentWeatherData = null;
+
+    // More Vibrant and Diverse Gradients
     const weatherGradients = {
-        'CLEAR': 'var(--gradient-clear)',
-        'CLOUDY': 'var(--gradient-cloudy)',
-        'RAIN': 'var(--gradient-rainy)',
-        'STORM': 'var(--gradient-stormy)',
-        'SNOW': 'linear-gradient(135deg, #A1C4FD, #C2E9FB)',
-        'PARTLY_CLOUDY': 'var(--gradient-sunny)',
+        'CLEAR': 'linear-gradient(135deg, #FF6B6B, #4ECDC4)',
+        'CLOUDY': 'linear-gradient(135deg, #5D6D7E, #34495E)',
+        'RAIN': 'linear-gradient(135deg, #2980B9, #6DD5FA)',
+        'STORM': 'linear-gradient(135deg, #141E30, #243B55)',
+        'SNOW': 'linear-gradient(135deg, #83A4D4, #B0CBE3)',
+        'PARTLY_CLOUDY': 'linear-gradient(135deg, #FFC300, #FF5733)',
         'UNKNOWN': 'linear-gradient(135deg, #ECF0F1, #BDC3C7)'
+    };
+
+    // Text Color Mapping based on Gradient
+    const getTextColor = (weatherType) => {
+        const colorMap = {
+            'CLEAR': '#FFFFFF', // White text for bright/warm gradients
+            'CLOUDY': '#F0F0F0', // Light gray for darker gradients
+            'RAIN': '#E0E0E0',   // Soft light gray for rainy gradients
+            'STORM': '#FFFFFF',  // White for dark storm gradients
+            'SNOW': '#2C3E50',   // Dark text for light snow gradients
+            'PARTLY_CLOUDY': '#FFFFFF', // White for sunny gradients
+            'UNKNOWN': '#2C3E50' // Default dark text
+        };
+        return colorMap[weatherType] || '#2C3E50';
     };
 
     const createWeatherCard = (weatherData) => {
         const { weatherType } = weatherData.conditions;
+        const gradient = weatherGradients[weatherType] || weatherGradients['UNKNOWN'];
+        const textColor = getTextColor(weatherType);
         
-        // Apply gradient background
-        body.style.background = weatherGradients[weatherType] || weatherGradients['UNKNOWN'];
-        body.style.backgroundSize = '400% 400%';
-        body.style.animation = 'gradientAnimation 15s ease infinite';
+        const temperature = currentTemperatureUnit === 'C' 
+            ? weatherData.temperature.current.celsius 
+            : weatherData.temperature.current.fahrenheit;
+
+        const feelsLike = currentTemperatureUnit === 'C' 
+            ? weatherData.temperature.feelsLike.celsius 
+            : weatherData.temperature.feelsLike.fahrenheit;
 
         return `
-            <div class="weather-card">
-                <div class="weather-card-header">
-                    <h2 class="location-name">${weatherData.location}</h2>
-                    <p class="weather-date">${new Date().toLocaleDateString()}</p>
+            <div class="weather-card" style="
+                background: ${gradient}; 
+                background-size: 400% 400%; 
+                animation: gradientAnimation 15s ease infinite;
+                color: ${textColor};
+            ">
+                <div class="weather-card-header" style="color: ${textColor};">
+                    <h2 class="location-name" style="color: ${textColor};">${weatherData.location}</h2>
+                    <p class="weather-date" style="color: ${textColor};">${new Date().toLocaleDateString()}</p>
                 </div>
                 
                 <div class="weather-card-main">
                     <div class="temperature-section">
-                        <h3 class="main-temperature">${weatherData.temperature.current.toFixed(1)}°C</h3>
-                        <p class="feels-like">Feels like ${weatherData.temperature.feelsLike.toFixed(1)}°C</p>
-                        <p class="weather-type">${weatherType.replace('_', ' ')}</p>
+                        <h3 class="main-temperature" style="color: ${textColor};">
+                            ${temperature.toFixed(1)}°${currentTemperatureUnit}
+                        </h3>
+                        <p class="feels-like" style="color: ${textColor};">
+                            Feels like ${feelsLike.toFixed(1)}°${currentTemperatureUnit}
+                        </p>
+                        <p class="weather-type" style="color: ${textColor};">
+                            ${weatherType.replace('_', ' ')}
+                        </p>
                     </div>
                     
                     <div class="weather-details">
-                        <div class="detail-item">
+                        <div class="detail-item" style="color: ${textColor};">
                             <span class="detail-icon">💧</span>
-                            <span class="detail-value">${weatherData.humidity}%</span>
-                            <span class="detail-label">Humidity</span>
+                            <span class="detail-value" style="color: ${textColor};">
+                                ${weatherData.humidity}%
+                            </span>
+                            <span class="detail-label" style="color: ${textColor};">
+                                Humidity
+                            </span>
                         </div>
                         
-                        <div class="detail-item">
+                        <div class="detail-item" style="color: ${textColor};">
                             <span class="detail-icon">🌬️</span>
-                            <span class="detail-value">${weatherData.windSpeed} km/h</span>
-                            <span class="detail-label">Wind Speed</span>
+                            <span class="detail-value" style="color: ${textColor};">
+                                ${weatherData.windSpeed} km/h
+                            </span>
+                            <span class="detail-label" style="color: ${textColor};">
+                                Wind Speed
+                            </span>
                         </div>
                         
-                        <div class="detail-item">
+                        <div class="detail-item" style="color: ${textColor};">
                             <span class="detail-icon">☁️</span>
-                            <span class="detail-value">${weatherData.conditions.description}</span>
-                            <span class="detail-label">Conditions</span>
+                            <span class="detail-value" style="color: ${textColor};">
+                                ${weatherData.conditions.description}
+                            </span>
+                            <span class="detail-label" style="color: ${textColor};">
+                                Conditions
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -61,7 +107,23 @@ export const createWeatherUI = () => {
         `;
     };
 
-    // Rest of the code remains the same as previous implementation
+    // Temperature Toggle Setup
+    const setupTemperatureToggle = () => {
+        celsiusToggle.addEventListener('click', () => {
+            currentTemperatureUnit = 'C';
+            celsiusToggle.classList.add('active');
+            fahrenheitToggle.classList.remove('active');
+            if (currentWeatherData) renderWeatherData(currentWeatherData);
+        });
+
+        fahrenheitToggle.addEventListener('click', () => {
+            currentTemperatureUnit = 'F';
+            fahrenheitToggle.classList.add('active');
+            celsiusToggle.classList.remove('active');
+            if (currentWeatherData) renderWeatherData(currentWeatherData);
+        });
+    };
+
     const showLoading = () => {
         weatherResultsContainer.innerHTML = `
             <div class="loading-spinner">
@@ -80,6 +142,7 @@ export const createWeatherUI = () => {
     };
 
     const renderWeatherData = (weatherData) => {
+        currentWeatherData = weatherData;
         weatherResultsContainer.innerHTML = createWeatherCard(weatherData);
     };
 
@@ -97,6 +160,9 @@ export const createWeatherUI = () => {
             callback(location);
         });
     };
+
+    // Initialize temperature toggle
+    setupTemperatureToggle();
 
     return {
         renderWeatherData,
