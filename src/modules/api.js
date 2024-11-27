@@ -8,14 +8,14 @@ export async function fetchWeatherData(location){
     const url=`${BASE_URL}${location}?key=${API_KEY}`;
 
     // Step 2: Log the URL to understand what we're sending
-    console.log('Requesting URL: ',url);
+    // console.log('Requesting URL: ',url);
 
     try{
         // Step 3: Make the API request
         const response=await fetch(url);
 
         // Step 4: Log the raw response to see what we get
-        console.log('Raw Response: ',response);
+        // console.log('Raw Response: ',response);
 
         // Step 5: Check if the response is okay
         if(!response.ok){
@@ -27,7 +27,7 @@ export async function fetchWeatherData(location){
         const data=await response.json();
 
         // Step 7: Log the parsed data to inspect its structure
-        console.log('Parsed Weather Data: ',data);
+        // console.log('Parsed Weather Data: ',data);
 
         // Return the data for further processing
         return data;
