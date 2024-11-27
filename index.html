@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weather Forecast App</title>
+    <link rel="stylesheet" href="styles/main.css">
+<script defer src="bundle.js"></script></head>
+<body>
+    <div class="container">
+        <header class="app-header">
+            <h1>Weather Forecast</h1>
+            <p>Get instant weather information for any location</p>
+        </header>
+        
+        <form id="location-form" class="weather-form">
+            <div class="form-group">
+                <input 
+                    type="text" 
+                    id="location-input"
+                    class="location-input" 
+                    placeholder="Enter location"
+                    required
+                >
+                <button type="submit" class="submit-btn">
+                    Search Weather
+                </button>
+            </div>
+        </form>
+
+        <div class="temperature-toggle">
+            <button id="celsius-toggle" class="temp-toggle active">°C</button>
+            <button id="fahrenheit-toggle" class="temp-toggle">°F</button>
+        </div>
+
+        <div id="weather-results" class="weather-results">
+            <!-- Weather data will be dynamically inserted here -->
+        </div>
+    </div>
+</body>
+</html>
