@@ -9,13 +9,15 @@ export function processWeatherData(rawData){
 
     try {
         // current day's weather details
-
+        if(!rawData || !rawData.days || rawData.days.length===0){
+            throw new Error('Invalid weather data structure');
+        }
         const currentDay=rawData.days[0];
         console.log(currentDay);
 
         // Step 3: Create a structured weather object
         const processedWeather={
-            location: rawData.resolvedAddress,
+            location: rawData.resolvedAddress || 'Unknown Location',
 
             // Temperature data
             temperature:{
@@ -27,7 +29,7 @@ export function processWeatherData(rawData){
 
             // Conditions
             conditions:{
-                description:currentDay.conditions,
+                description:currentDay.conditions || 'No Data',
                 icon:currentDay.icon
             },
             // Additional details
@@ -36,8 +38,8 @@ export function processWeatherData(rawData){
             precipitation: currentDay.precipprob,
             
             // Date information
-            date: currentDay.datetime
-        }
+            date: currentDay.datetime || new Date().toISOString()
+        };
 
         console.log('Processed Weather Data->: ',processedWeather);
         return processedWeather;

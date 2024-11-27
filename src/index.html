@@ -5,13 +5,29 @@
     <title>Weather App</title>
 </head>
 <body>
-    <div id="app">
-        <h1>Weather Forecast</h1>
-        <form id="location-form">
-            <input type="text" id="location-input" placeholder="Enter location">
-            <button type="submit">Get Weather</button>
+    <div class="container">
+        <header class="app-header">
+            <h1>Weather Forecast</h1>
+            <p>Get instant weather information for any location</p>
+        </header>
+        <form id="location-form" class="weather-form">
+            <div class="form-group">
+                <input 
+                    type="text" 
+                    id="location-input"
+                    class="location-input" 
+                    placeholder="Enter location"
+                    required
+                >
+                <button type="submit" class="submit-btn">
+                    Search Weather
+                </button>
+            </div>
         </form>
-        <div id="weather-results"></div>
+        <div id="weather-results" class="weather-results">
+            <!-- Weather data will be dynamically inserted here -->
+
+        </div>
     </div>
 </body>
 </html>

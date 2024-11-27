@@ -1,40 +1,25 @@
 import './styles/main.css';
 import { fetchWeatherData } from './modules/api';
 import { processWeatherData } from './modules/weatherProcessor';
+import { createWeatherUI } from './modules/ui';
 
-document.getElementById('location-form').addEventListener('submit',async(e)=>{
-    e.preventDefault();
+// Initialize the Weather UI
+const weatherUI = createWeatherUI();
 
-    // Get the location input
-    const locationInput=document.getElementById('location-input');
-    const location=locationInput.value.trim();
-
-    if(!location){
-        console.error('Please enter a location');
-        return;
-    }
-
-    try{
-        // Step 1: Fetch raw weather data
-        const rawWeatherData=await fetchWeatherData(location);
-
-        // Step 2: Process the raw data
-        const processedWeather=processWeatherData(rawWeatherData);
-
-        // Step 3: Display processed data (we'll create a UI module later)
-        displayWeatherData(processedWeather);
-
-    }catch(error){
-        console.error('Error in form submission: ',error);
+// Bind submit event with error handling
+weatherUI.bindSubmitEvent(async (location) => {
+    try {
+        // Fetch raw weather data
+        const rawWeatherData = await fetchWeatherData(location);
+        
+        // Process the raw weather data
+        const processedWeather = processWeatherData(rawWeatherData);
+        
+        // Render the processed weather data
+        // IMPORTANT: Fixed the typo here - use processedWeather, not processWeatherData
+        weatherUI.renderWeatherData(processedWeather);
+    } catch (error) {
+        // Show error if anything goes wrong
+        weatherUI.showError(error.message);
     }
 });
-
-function displayWeatherData(weatherData){
-    const resultDiv=document.getElementById('weather-results');
-    resultDiv.innerHTML=`<h2>Weather in ${weatherData.location}</h2>
-    <p>Temperature: ${weatherData.temperature.current}°C</p>
-    <p>Conditions: ${weatherData.conditions.description}</p>
-    <p>Humidity: ${weatherData.humidity}%</p>
-    <p>Wind Speed: ${weatherData.windSpeed} km/h</p>
-    `;
-}
