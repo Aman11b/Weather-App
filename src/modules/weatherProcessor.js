@@ -5,15 +5,21 @@
 export function processWeatherData(rawData){
     
     // Step 1: Log the raw data to understand its structure
-    console.log('Raw Weather Data to process: ',rawData);
+    // console.log('Raw Weather Data to process: ',rawData);
 
     try {
-        // current day's weather details
+        // Current day's weather details
         if(!rawData || !rawData.days || rawData.days.length===0){
             throw new Error('Invalid weather data structure');
         }
         const currentDay=rawData.days[0];
-        console.log(currentDay);
+        // console.log(currentDay);
+
+        const weatherType=classifyWeatherType(
+            currentDay.conditions,
+            currentDay.cloudcover,
+            currentDay.precipprob
+        );
 
         // Step 3: Create a structured weather object
         const processedWeather={
@@ -30,15 +36,15 @@ export function processWeatherData(rawData){
             // Conditions
             conditions:{
                 description:currentDay.conditions || 'No Data',
-                icon:currentDay.icon
+                icon:currentDay.icon,
+                weatherType:weatherType
             },
             // Additional details
             humidity: currentDay.humidity,
             windSpeed: currentDay.windspeed,
             precipitation: currentDay.precipprob,
-            
-            // Date information
-            date: currentDay.datetime || new Date().toISOString()
+            date: currentDay.datetime || new Date().toISOString(),
+            cloudCover:currentDay.cloudcover
         };
 
         console.log('Processed Weather Data->: ',processedWeather);
@@ -49,6 +55,26 @@ export function processWeatherData(rawData){
         throw new Error('Failed to process weather data');
         
     }
+
+}
+function classifyWeatherType(conditions,cloudCover,precipProbability){
+
+    const conditionsLower = conditions.toLowerCase();
+    // Precipitation Check
+    if (precipProbability > 50) {
+        if (conditionsLower.includes('snow')) return 'SNOW';
+        if (conditionsLower.includes('rain')) return 'RAIN';
+        if (conditionsLower.includes('storm')) return 'STORM';
+    }
+
+    // Cloud Cover Check
+    if (cloudCover > 70) return 'CLOUDY';
+
+    // Temperature and Sun Conditions
+    if (conditionsLower.includes('clear')) return 'CLEAR';
+    if (conditionsLower.includes('partly cloudy')) return 'PARTLY_CLOUDY';
+
+    return 'UNKNOWN';
 
 }
 export function convertTemperature(temp,unit='C'){

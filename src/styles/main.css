@@ -2,6 +2,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Poppins:wght@300;400;600&display=swap');
 
 :root{
+        /* Expanded Color Palette with Gradients */
+    --gradient-clear: linear-gradient(135deg, #87CEEB, #4682B4);
+    --gradient-cloudy: linear-gradient(135deg, #B0C4DE, #778899);
+    --gradient-rainy: linear-gradient(135deg, #4A90E2, #2C3E50);
+    --gradient-stormy: linear-gradient(135deg, #34495E, #2C3E50);
+    --gradient-sunny: linear-gradient(135deg, #FFC300, #FF5733);
+    
+    /* Temperature Toggle Colors */
+    --temp-celsius: #3498DB;
+    --temp-fahrenheit: #E74C3C;
+    
     /* Color Palette */
     --primary-color:#2C3E50;
     --secondary-color:#34495E;
@@ -18,7 +29,6 @@
     --box-shadow:0 4px 6px rgba(0,0,0,0.1);
     --transition:all 0.3s ease-in-out;
 }
-
 *{
     margin: 0;
     padding: 0;
@@ -75,6 +85,8 @@ body{
     font-family: var(--font-primary);
     font-size: 1rem;
     transition: var(--transition);
+    border-top-left-radius:8px;
+    border-bottom-left-radius:8px;
 }
 .location-input:focus{
     outline: none;
@@ -157,4 +169,24 @@ body{
     background-color: var(--card-bg);
     border-radius: 12px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+/* Add this to your existing CSS */
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.weather-type {
+    text-align: center;
+    margin-top: 0.5rem;
+    color: rgba(255, 255, 255, 0.8);
+    text-transform: capitalize;
+    font-weight: 600;
 }
